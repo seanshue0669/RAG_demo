@@ -1,0 +1,15 @@
+員工基本資料表
+
+姓名：{name}
+員工編號：{emp_id}
+所屬部門：{department}
+職稱：{title}
+到職日期：{start_date}
+出生日期：{birth_date}
+最高學歷：{education}
+
+{name}於{start_date}加入本公司，目前任職於{department}擔任{title}一職。其月薪為新台幣{salary}元，薪資撥款帳號為{bank_account}，由人資部門按月匯入。員工身分證字號為{ssn}，作為人事系統識別與報稅之用，相關資料屬於高度機密，僅限授權人員存取。
+
+聯絡資訊方面，{name}的行動電話為{phone}，公司電子信箱為{email}，戶籍與通訊地址登記於{address}。如遇緊急狀況，請聯繫其{emergency_relation}{emergency_name}（電話：{emergency_phone}）。
+
+本份員工檔案包含個人敏感資訊，依《個人資料保護法》及公司內部資安政策，僅供人資部門與核准之主管調閱。任何複製、轉寄或外洩本文件之行為，將依公司規定追究法律與行政責任。

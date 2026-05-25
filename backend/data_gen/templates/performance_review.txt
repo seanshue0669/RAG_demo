@@ -1,0 +1,12 @@
+員工績效考核紀錄
+
+考核期間：{review_period}
+受評員工：{employee_name}（{department}）
+評核主管：{reviewer_name}
+綜合評等：{rating}
+
+於本次{review_period}績效考核中，{department}的{employee_name}整體表現經由直屬主管{reviewer_name}進行評核。從工作成果與專業能力來看，{employee_name}展現之主要優點包括：{strengths}，對於部門目標之達成有具體貢獻，並於跨部門協作中表現積極主動。
+
+在待改善之處，主管建議{employee_name}於後續工作中加強：{improvements}，期望透過教育訓練與專案實作逐步提升相關能力。經綜合評量後，{employee_name}本次績效評等為{rating}。
+
+關於後續人事建議，獎金部分主管建議為：{bonus_recommendation}；升遷狀態：{promotion_status}。本份考核資料屬部門內部文件，僅供本部門主管及人資窗口參閱，請勿外流。

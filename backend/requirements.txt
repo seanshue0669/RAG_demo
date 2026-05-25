@@ -1,0 +1,32 @@
+# Cloud RAG Security Demo — Backend Dependencies
+# Target: Python 3.10 on ARM64 (NVIDIA DGX GB10)
+#
+# NOTE: TenSEAL on ARM64 may not have a pre-built wheel. If `pip install tenseal`
+# fails, follow the source-build instructions documented in scripts/setup.sh.
+
+# Web framework / ASGI
+fastapi>=0.100
+uvicorn[standard]>=0.20
+python-multipart>=0.0.6
+
+# Data validation / settings
+pydantic>=2.0
+pydantic-settings>=2.0
+
+# Fake data generation (zh_TW locale)
+faker>=20.0
+
+# Embedding model
+sentence-transformers>=2.2
+
+# Vector database
+chromadb>=0.4
+
+# Homomorphic encryption (CKKS)
+tenseal>=0.3
+
+# HTTP client (for calling vLLM endpoint)
+httpx>=0.25
+
+# Numerical
+numpy

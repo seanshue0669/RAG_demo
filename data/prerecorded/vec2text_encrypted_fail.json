@@ -1,0 +1,91 @@
+{
+  "description": "[PLACEHOLDER] Vec2Text inversion against CKKS-encrypted embeddings (defense demo). Recovery fails because attacker only has ciphertext. Will be overwritten by scripts/prepare_vec2text.py with real failure results.",
+  "model": "vec2text-gtr-base",
+  "note": "Attacker only has access to encrypted embeddings; no plaintext vector is exposed. The inverter receives random-looking noise and produces gibberish-like fragments.",
+  "results": [
+    {
+      "doc_id": "EMP-0007",
+      "doc_type": "employee_record",
+      "original_text": "員工林志明（編號 EMP-0007）任職於人資部，職稱為人資專員，年薪新台幣 82 萬元，到職日 2021-03-15。",
+      "inverted_text": "的 在 是 一個 公司 員工 工作 並且 月份 文件",
+      "similarity_score": 0.08,
+      "pii_match": {
+        "name": {"original": "林志明", "recovered": null, "matched": false},
+        "department": {"original": "人資部", "recovered": null, "matched": false},
+        "title": {"original": "人資專員", "recovered": null, "matched": false},
+        "emp_id": {"original": "EMP-0007", "recovered": null, "matched": false}
+      },
+      "pii_match_rate": 0.0
+    },
+    {
+      "doc_id": "EMP-0042",
+      "doc_type": "employee_record",
+      "original_text": "員工張小明（編號 EMP-0042）任職於財務部，職稱為資深會計師，年薪新台幣 95 萬元，到職日 2019-07-01。",
+      "inverted_text": "對於 這個 然後 或者 之間 部門 報告 系統 表格",
+      "similarity_score": 0.05,
+      "pii_match": {
+        "name": {"original": "張小明", "recovered": null, "matched": false},
+        "department": {"original": "財務部", "recovered": null, "matched": false},
+        "title": {"original": "資深會計師", "recovered": null, "matched": false},
+        "emp_id": {"original": "EMP-0042", "recovered": null, "matched": false}
+      },
+      "pii_match_rate": 0.0
+    },
+    {
+      "doc_id": "EMP-0118",
+      "doc_type": "employee_record",
+      "original_text": "員工陳怡君（編號 EMP-0118）任職於工程部，職稱為軟體工程師，年薪新台幣 110 萬元，到職日 2022-01-10。",
+      "inverted_text": "一些 我們 他們 並 但 也 還有 因此 進行 完成",
+      "similarity_score": 0.06,
+      "pii_match": {
+        "name": {"original": "陳怡君", "recovered": null, "matched": false},
+        "department": {"original": "工程部", "recovered": null, "matched": false},
+        "title": {"original": "軟體工程師", "recovered": null, "matched": false},
+        "emp_id": {"original": "EMP-0118", "recovered": null, "matched": false}
+      },
+      "pii_match_rate": 0.0
+    },
+    {
+      "doc_id": "EMP-0233",
+      "doc_type": "employee_record",
+      "original_text": "員工王俊傑（編號 EMP-0233）任職於行銷部，職稱為行銷經理，年薪新台幣 135 萬元，到職日 2018-11-20。",
+      "inverted_text": "請問 您好 謝謝 再見 今天 明天 內容 資料 結果 數據",
+      "similarity_score": 0.04,
+      "pii_match": {
+        "name": {"original": "王俊傑", "recovered": null, "matched": false},
+        "department": {"original": "行銷部", "recovered": null, "matched": false},
+        "title": {"original": "行銷經理", "recovered": null, "matched": false},
+        "emp_id": {"original": "EMP-0233", "recovered": null, "matched": false}
+      },
+      "pii_match_rate": 0.0
+    },
+    {
+      "doc_id": "INT-0051",
+      "doc_type": "internal_memo",
+      "original_text": "法務部李秀芳（編號 EMP-0451）於 2025-04-12 提出客戶合約審查報告，涉及客戶 ACME 公司之保密協議條款。",
+      "inverted_text": "於是 其中 此外 然而 因為 所以 不過 雖然 即使 儘管",
+      "similarity_score": 0.07,
+      "pii_match": {
+        "name": {"original": "李秀芳", "recovered": null, "matched": false},
+        "department": {"original": "法務部", "recovered": null, "matched": false},
+        "title": {"original": "法務專員", "recovered": null, "matched": false},
+        "emp_id": {"original": "EMP-0451", "recovered": null, "matched": false}
+      },
+      "pii_match_rate": 0.0
+    },
+    {
+      "doc_id": "EMP-0309",
+      "doc_type": "employee_record",
+      "original_text": "員工黃淑芬（編號 EMP-0309）任職於業務部，職稱為業務副理，年薪新台幣 98 萬元，到職日 2020-05-25。",
+      "inverted_text": "比如 例如 包括 以及 並且 同時 另外 此外 而且 像是",
+      "similarity_score": 0.09,
+      "pii_match": {
+        "name": {"original": "黃淑芬", "recovered": null, "matched": false},
+        "department": {"original": "業務部", "recovered": null, "matched": false},
+        "title": {"original": "業務副理", "recovered": null, "matched": false},
+        "emp_id": {"original": "EMP-0309", "recovered": null, "matched": false}
+      },
+      "pii_match_rate": 0.0
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "description": "[PLACEHOLDER] Vec2Text inversion against plaintext-stored embeddings (Act 4 attack demo). Will be overwritten by scripts/prepare_vec2text.py with real inversion results.",
+  "model": "vec2text-gtr-base",
+  "results": [
+    {
+      "doc_id": "EMP-0007",
+      "doc_type": "employee_record",
+      "original_text": "員工林志明（編號 EMP-0007）任職於人資部，職稱為人資專員，年薪新台幣 82 萬元，到職日 2021-03-15。",
+      "inverted_text": "員工林志明（編號 EMP-0007）任職於人資部，是人資專員，年薪約 82 萬元。",
+      "similarity_score": 0.91,
+      "pii_match": {
+        "name": {"original": "林志明", "recovered": "林志明", "matched": true},
+        "department": {"original": "人資部", "recovered": "人資部", "matched": true},
+        "title": {"original": "人資專員", "recovered": "人資專員", "matched": true},
+        "emp_id": {"original": "EMP-0007", "recovered": "EMP-0007", "matched": true}
+      },
+      "pii_match_rate": 1.0
+    },
+    {
+      "doc_id": "EMP-0042",
+      "doc_type": "employee_record",
+      "original_text": "員工張小明（編號 EMP-0042）任職於財務部，職稱為資深會計師，年薪新台幣 95 萬元，到職日 2019-07-01。",
+      "inverted_text": "員工張小明（編號 EMP-0042）在財務部擔任資深會計師，薪資約 95 萬。",
+      "similarity_score": 0.87,
+      "pii_match": {
+        "name": {"original": "張小明", "recovered": "張小明", "matched": true},
+        "department": {"original": "財務部", "recovered": "財務部", "matched": true},
+        "title": {"original": "資深會計師", "recovered": "資深會計師", "matched": true},
+        "emp_id": {"original": "EMP-0042", "recovered": "EMP-0042", "matched": true}
+      },
+      "pii_match_rate": 1.0
+    },
+    {
+      "doc_id": "EMP-0118",
+      "doc_type": "employee_record",
+      "original_text": "員工陳怡君（編號 EMP-0118）任職於工程部，職稱為軟體工程師，年薪新台幣 110 萬元，到職日 2022-01-10。",
+      "inverted_text": "員工陳怡（編號 EMP-0118）任職工程部，軟體工程師，年薪 110 萬元左右。",
+      "similarity_score": 0.78,
+      "pii_match": {
+        "name": {"original": "陳怡君", "recovered": "陳怡", "matched": false},
+        "department": {"original": "工程部", "recovered": "工程部", "matched": true},
+        "title": {"original": "軟體工程師", "recovered": "軟體工程師", "matched": true},
+        "emp_id": {"original": "EMP-0118", "recovered": "EMP-0118", "matched": true}
+      },
+      "pii_match_rate": 0.75
+    },
+    {
+      "doc_id": "EMP-0233",
+      "doc_type": "employee_record",
+      "original_text": "員工王俊傑（編號 EMP-0233）任職於行銷部，職稱為行銷經理，年薪新台幣 135 萬元，到職日 2018-11-20。",
+      "inverted_text": "員工王俊（編號 EMP-0233）在行銷部，職位是經理，年薪約 130 多萬。",
+      "similarity_score": 0.69,
+      "pii_match": {
+        "name": {"original": "王俊傑", "recovered": "王俊", "matched": false},
+        "department": {"original": "行銷部", "recovered": "行銷部", "matched": true},
+        "title": {"original": "行銷經理", "recovered": "經理", "matched": false},
+        "emp_id": {"original": "EMP-0233", "recovered": "EMP-0233", "matched": true}
+      },
+      "pii_match_rate": 0.5
+    },
+    {
+      "doc_id": "INT-0051",
+      "doc_type": "internal_memo",
+      "original_text": "法務部李秀芳（編號 EMP-0451）於 2025-04-12 提出客戶合約審查報告，涉及客戶 ACME 公司之保密協議條款。",
+      "inverted_text": "法務部李秀芳（EMP-0451）在 2025 年 4 月提交客戶合約審查，與 ACME 公司保密協議有關。",
+      "similarity_score": 0.84,
+      "pii_match": {
+        "name": {"original": "李秀芳", "recovered": "李秀芳", "matched": true},
+        "department": {"original": "法務部", "recovered": "法務部", "matched": true},
+        "title": {"original": "法務專員", "recovered": null, "matched": false},
+        "emp_id": {"original": "EMP-0451", "recovered": "EMP-0451", "matched": true}
+      },
+      "pii_match_rate": 0.75
+    },
+    {
+      "doc_id": "EMP-0309",
+      "doc_type": "employee_record",
+      "original_text": "員工黃淑芬（編號 EMP-0309）任職於業務部，職稱為業務副理，年薪新台幣 98 萬元，到職日 2020-05-25。",
+      "inverted_text": "員工黃淑芬（編號 EMP-0309）在業務部擔任副理，年薪近 100 萬元。",
+      "similarity_score": 0.82,
+      "pii_match": {
+        "name": {"original": "黃淑芬", "recovered": "黃淑芬", "matched": true},
+        "department": {"original": "業務部", "recovered": "業務部", "matched": true},
+        "title": {"original": "業務副理", "recovered": "副理", "matched": false},
+        "emp_id": {"original": "EMP-0309", "recovered": "EMP-0309", "matched": true}
+      },
+      "pii_match_rate": 0.75
+    }
+  ]
+}
