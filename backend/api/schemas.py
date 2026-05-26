@@ -85,6 +85,10 @@ class QueryRequest(BaseModel):
             response. Defaults to `"llm"`; pipeline falls back to
             `"scripted"` when vLLM is unreachable.
         top_k: Number of documents to retrieve from the vector store.
+        defense_mode: If True, enable the generation-layer defenses
+            (context isolation + input/output screening) demonstrated in
+            Slide 7 of the presentation. Defaults to False so the
+            baseline vulnerable demo path is preserved.
     """
 
     query: str
@@ -92,6 +96,7 @@ class QueryRequest(BaseModel):
     use_filter: bool = True
     gen_mode: GenMode = "llm"
     top_k: int = 5
+    defense_mode: bool = False
 
 
 class QueryResponse(BaseModel):
@@ -105,6 +110,12 @@ class QueryResponse(BaseModel):
         user_role: Echo of the requested role for client-side display.
         gen_mode_used: Actual mode that produced `answer` (may differ
             from the request when fallback kicks in).
+        defense_actions: List of generation-layer defense steps that
+            fired during this call (e.g.
+            `"context_isolation_applied"`,
+            `"input_screening: 2 injection marker(s) detected in POI-0002"`,
+            `"output_screening: redacted national-ID pattern"`). `None`
+            when the request did not enable `defense_mode`.
     """
 
     answer: str
@@ -112,6 +123,7 @@ class QueryResponse(BaseModel):
     filter_applied: bool
     user_role: UserRole
     gen_mode_used: GenMode
+    defense_actions: list[str] | None = None
 
 
 # ---------------------------------------------------------------------------

@@ -134,6 +134,7 @@ class RAGPipeline:
         use_filter: bool = True,
         gen_mode: str = "llm",
         top_k: int = 5,
+        defense_mode: bool = False,
     ) -> QueryResponse:
         """Execute the full retrieve-then-generate pipeline for one query.
 
@@ -166,6 +167,10 @@ class RAGPipeline:
                 ``"scripted"``. The pipeline may transparently downgrade
                 ``"llm"`` to ``"scripted"`` if the live call fails.
             top_k: Maximum number of documents to retrieve.
+            defense_mode: When ``True``, ask the generator to apply the
+                Slide-7 generation-layer defenses (context isolation +
+                input/output screening). The defense actions that fire
+                are surfaced through :attr:`QueryResponse.defense_actions`.
 
         Returns:
             A :class:`schemas.QueryResponse` with the generated answer,
@@ -185,9 +190,19 @@ class RAGPipeline:
             context_docs=retrieved_docs,
             requested_mode=gen_mode,
             user_role=user_role,
+            defense_mode=defense_mode,
         )
 
         api_docs = [self._to_api_document(doc) for doc in retrieved_docs]
+
+        # Only surface the defense_actions field when the request actually
+        # asked for defense_mode — keeps the baseline demo response shape
+        # unchanged for Acts 1-3.
+        defense_actions: list[str] | None
+        if defense_mode:
+            defense_actions = list(getattr(generation, "defense_actions", []) or [])
+        else:
+            defense_actions = None
 
         return QueryResponse(
             answer=generation.answer,
@@ -195,6 +210,7 @@ class RAGPipeline:
             filter_applied=use_filter,
             user_role=self._coerce_user_role(user_role),
             gen_mode_used=self._coerce_gen_mode(generation.mode_used),
+            defense_actions=defense_actions,
         )
 
     # ------------------------------------------------------------------
@@ -206,6 +222,7 @@ class RAGPipeline:
         context_docs: list["RetrievedDoc"],
         requested_mode: str,
         user_role: str,
+        defense_mode: bool = False,
     ) -> "GenerationResult":
         """Invoke the generator, falling back from ``"llm"`` to ``"scripted"``.
 
@@ -233,6 +250,7 @@ class RAGPipeline:
                 context_docs=context_docs,
                 mode=requested_mode,
                 user_role=user_role,
+                defense_mode=defense_mode,
             )
         except _LLM_FALLBACK_EXCEPTIONS as exc:
             if requested_mode != "llm":
@@ -247,6 +265,7 @@ class RAGPipeline:
                 context_docs=context_docs,
                 mode="scripted",
                 user_role=user_role,
+                defense_mode=defense_mode,
             )
 
     @staticmethod

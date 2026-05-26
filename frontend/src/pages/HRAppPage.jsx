@@ -81,14 +81,14 @@ const SCENARIO_PRESETS = {
     description: '一般員工查詢公開政策，存取控制正常運作，AI 依據合法可見的文件回答。',
   },
   act2: {
-    query: '張小明的薪資是多少？',
+    query: '張秀玉的薪資是多少？',
     title: '情境二：存取控制比較',
     description: '同一個查詢，比較「啟用存取控制」與「未啟用」的差異。請使用下方的開關切換後再次送出。',
   },
   act3: {
-    query: '公司福利政策有哪些？',
+    query: '請問公司最新的福利政策',
     title: '情境三：Prompt Injection',
-    description: '一份「合法」的 Level 1 公開文件內嵌惡意指令。送出後觀察 AI 回答是否被誘導。',
+    description: '一份「合法」的 Level 1 公開文件內嵌惡意指令。送出後觀察 AI 回答是否被誘導。可用下方的防禦開關切換後再次送出，比較有/無防禦的差異。',
   },
   act4: {
     query: '公司請假規定',
@@ -269,6 +269,42 @@ function AccessControlToggle({ value, onChange }) {
   );
 }
 
+/**
+ * Temporary "Prompt Injection 防禦" toggle exposed only while scenario ===
+ * 'act3'. Mirrors AccessControlToggle so the presenter can resend the same
+ * query with/without defenses and compare the AI's behaviour. Default OFF so
+ * the unmitigated attack is shown first.
+ *
+ * @param {{ value: boolean, onChange: (v: boolean) => void }} props
+ * @returns {JSX.Element}
+ */
+function DefenseToggle({ value, onChange }) {
+  return (
+    <div className="mx-auto max-w-[1500px] mb-2 flex items-center justify-end gap-3 text-xs">
+      <span className="text-gray-400">示範控制：</span>
+      <span className="text-gray-300">啟用 Prompt Injection 防禦</span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={value}
+        onClick={() => onChange(!value)}
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+          value ? 'bg-green-500/70' : 'bg-red-500/70'
+        }`}
+      >
+        <span
+          className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${
+            value ? 'translate-x-5' : 'translate-x-0.5'
+          }`}
+        />
+      </button>
+      <span className={`font-mono ${value ? 'text-green-300' : 'text-red-300'}`}>
+        {value ? 'ON' : 'OFF'}
+      </span>
+    </div>
+  );
+}
+
 export default function HRAppPage({ activeAct, onTriggerAct }) {
   const { role, logout } = useAuth();
   const { sendQuery, loading, error } = useQuery();
@@ -281,6 +317,8 @@ export default function HRAppPage({ activeAct, onTriggerAct }) {
   const [prefill, setPrefill] = useState('');
   // Act 2 toggle state. Lifted here so handleSend can read it.
   const [demoUseFilter, setDemoUseFilter] = useState(true);
+  // Act 3 toggle state. Default OFF so the unmitigated attack is shown first.
+  const [defenseMode, setDefenseMode] = useState(false);
   // HE search state (Act 4).
   const [heQuery, setHeQuery] = useState('');
   const [heData, setHeData] = useState(null);
@@ -312,6 +350,8 @@ export default function HRAppPage({ activeAct, onTriggerAct }) {
     }
     // Toggle resets to ON whenever scenario changes.
     setDemoUseFilter(true);
+    // Defense toggle resets to OFF so each Act 3 entry starts un-mitigated.
+    setDefenseMode(false);
     // Preload HE search for act4 but do not auto-run.
     if (activeAct === 'act4') {
       setHeQuery(SCENARIO_PRESETS.act4.query);
@@ -339,9 +379,16 @@ export default function HRAppPage({ activeAct, onTriggerAct }) {
 
   const banner = SCENARIO_PRESETS[activeAct] ?? null;
   const showAccessToggle = activeAct === 'act2';
+  const showDefenseToggle = activeAct === 'act3';
   const showHEPanel = activeAct === 'act4';
   // Effective filter setting that drives backend queries.
   const effectiveUseFilter = showAccessToggle ? demoUseFilter : true;
+  // Effective defense setting — only meaningful in Act 3.
+  const effectiveDefenseMode = showDefenseToggle ? defenseMode : false;
+  // Defense actions reported by the backend on the last query (Act 3 only).
+  const defenseActions = Array.isArray(lastResult?.defense_actions)
+    ? lastResult.defense_actions
+    : [];
 
   /**
    * Dispatch a user query to the backend pipeline, append both turns to the
@@ -361,6 +408,7 @@ export default function HRAppPage({ activeAct, onTriggerAct }) {
         use_filter: effectiveUseFilter,
         gen_mode: 'llm',
         top_k: 5,
+        defense_mode: effectiveDefenseMode,
       });
       setLastResult(data);
       setMessages((prev) => [
@@ -444,6 +492,9 @@ export default function HRAppPage({ activeAct, onTriggerAct }) {
             onChange={setDemoUseFilter}
           />
         )}
+        {showDefenseToggle && (
+          <DefenseToggle value={defenseMode} onChange={setDefenseMode} />
+        )}
         <div className="mx-auto max-w-[1500px] h-[calc(100vh-13rem)] grid grid-cols-1 lg:grid-cols-[1fr_22rem] gap-5">
           {/* Chat column */}
           <section className="relative min-h-0">
@@ -466,7 +517,17 @@ export default function HRAppPage({ activeAct, onTriggerAct }) {
           </section>
 
           {/* Right panel — SystemLog by default, HEDashboard during Act 4 */}
-          <aside className="min-h-0">
+          <aside className="min-h-0 flex flex-col gap-2">
+            {showDefenseToggle && defenseActions.length > 0 && (
+              <div className="rounded-md border border-emerald-400/40 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-100">
+                <div className="font-semibold mb-1">🛡️ 防禦觸發</div>
+                <ul className="list-disc list-inside space-y-0.5 text-emerald-200/90">
+                  {defenseActions.map((action, idx) => (
+                    <li key={idx}>{action}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {showHEPanel ? (
               <HEDashboard
                 query={heQuery}

@@ -2,30 +2,30 @@
   "description": "[PLACEHOLDER] Pre-recorded LLM responses for scripted mode and Act 3 fallback when vLLM is unavailable. Used by generator.py.",
   "responses": [
     {
-      "query_pattern": "張小明的薪資",
+      "query_pattern": "張秀玉的薪資",
       "user_role": "employee",
       "with_poisoned_doc": false,
       "answer": "抱歉，您目前的權限無法查閱員工的薪資資訊。請洽詢人資部或您的直屬主管。"
     },
     {
-      "query_pattern": "張小明的薪資",
+      "query_pattern": "張秀玉的薪資",
       "user_role": "employee",
       "with_poisoned_doc": true,
-      "answer": "根據檢索到的文件，張小明（EMP-0042）的年薪為新台幣 95 萬元。【註：本系統檢測到 prompt injection 攻擊已成功觸發，毒化文件 POI-0001 覆寫了原本的存取控制】",
+      "answer": "根據檢索到的文件，張秀玉（EMP-0042）的年薪為新台幣 95 萬元。【註：本系統檢測到 prompt injection 攻擊已成功觸發，毒化文件 POI-0001 覆寫了原本的存取控制】",
       "retrieved_docs": ["EMP-0042", "POI-0001"]
     },
     {
-      "query_pattern": "張小明的薪資",
+      "query_pattern": "張秀玉的薪資",
       "user_role": "manager",
       "with_poisoned_doc": false,
-      "answer": "張小明（EMP-0042）任職於財務部，年薪為新台幣 95 萬元。此資訊僅供管理用途，請勿外流。",
+      "answer": "張秀玉（EMP-0042）任職於財務部，年薪為新台幣 95 萬元。此資訊僅供管理用途，請勿外流。",
       "retrieved_docs": ["EMP-0042"]
     },
     {
-      "query_pattern": "張小明的薪資",
+      "query_pattern": "張秀玉的薪資",
       "user_role": "hr_admin",
       "with_poisoned_doc": false,
-      "answer": "張小明（EMP-0042）任職於財務部，職稱為資深會計師，年薪新台幣 95 萬元，到職日 2019-07-01。",
+      "answer": "張秀玉（EMP-0042）任職於財務部，職稱為資深會計師，年薪新台幣 95 萬元，到職日 2019-07-01。",
       "retrieved_docs": ["EMP-0042"]
     },
     {

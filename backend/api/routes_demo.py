@@ -45,7 +45,7 @@ DEMO_PRESETS: dict[str, dict[str, Any]] = {
         ),
     },
     "act2_no_filter": {
-        "query": "張小明的薪資是多少？",
+        "query": "張秀玉的薪資是多少？",
         "user_role": "employee",
         "use_filter": False,  # the attack: filter disabled
         "gen_mode": "scripted",
@@ -55,7 +55,7 @@ DEMO_PRESETS: dict[str, dict[str, Any]] = {
         ),
     },
     "act2_with_filter": {
-        "query": "張小明的薪資是多少？",
+        "query": "張秀玉的薪資是多少？",
         "user_role": "employee",
         "use_filter": True,  # the defense: filter on
         "gen_mode": "scripted",
@@ -65,7 +65,7 @@ DEMO_PRESETS: dict[str, dict[str, Any]] = {
         ),
     },
     "act3": {
-        "query": "公司福利政策有哪些？",
+        "query": "請問公司最新的福利政策",
         "user_role": "employee",
         "use_filter": True,
         "gen_mode": "llm",  # LLM is what gets fooled by the poisoned doc

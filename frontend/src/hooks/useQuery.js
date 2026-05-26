@@ -9,8 +9,9 @@
  *
  * The backend contract is:
  *   POST /api/query
- *   body: { query, user_role, use_filter, gen_mode, top_k }
- *   resp: { answer, retrieved_docs[], filter_applied, user_role, gen_mode_used }
+ *   body: { query, user_role, use_filter, gen_mode, top_k, defense_mode }
+ *   resp: { answer, retrieved_docs[], filter_applied, user_role, gen_mode_used,
+ *           defense_actions? }
  *
  * Errors thrown by axios are normalised into a string and exposed via
  * `error`. The original promise rejection is still re-thrown so callers may
@@ -28,6 +29,9 @@ import { API_BASE_URL } from '../config.js';
  * @property {boolean} [use_filter=true] - Whether to apply security filter.
  * @property {'llm'|'scripted'} [gen_mode='llm'] - Generation backend.
  * @property {number} [top_k=5] - Number of documents to retrieve.
+ * @property {boolean} [defense_mode=false] - Whether to enable prompt-injection
+ *   defenses (Act 3 only). When true the backend is expected to sanitise
+ *   retrieved documents and/or harden the system prompt.
  */
 
 /**
@@ -69,6 +73,7 @@ export function useQuery() {
     use_filter = true,
     gen_mode = 'llm',
     top_k = 5,
+    defense_mode = false,
   }) {
     setLoading(true);
     setError(null);
@@ -79,6 +84,7 @@ export function useQuery() {
         use_filter,
         gen_mode,
         top_k,
+        defense_mode,
       });
       setResult(data);
       return data;

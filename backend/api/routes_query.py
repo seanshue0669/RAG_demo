@@ -23,6 +23,7 @@ async def query_endpoint(req: QueryRequest) -> QueryResponse:
             use_filter=req.use_filter,
             gen_mode=req.gen_mode,
             top_k=req.top_k,
+            defense_mode=req.defense_mode,
         )
     except KeyError as e:
         raise HTTPException(status_code=400, detail=f"Invalid user_role: {e}")
